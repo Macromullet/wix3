@@ -32,7 +32,7 @@
     $(WixToolPath) - Default Wix Tool install folder
   ==================================================================================================
   -->
-	<PropertyGroup>
+  <PropertyGroup>
 		<WixInstallRegKey>SOFTWARE\Microsoft\Windows Installer XML\3.14</WixInstallRegKey>
 		<WixInstallRegKeyWow64>SOFTWARE\Wow6432Node\Microsoft\Windows Installer XML\3.14</WixInstallRegKeyWow64>
 	</PropertyGroup>
