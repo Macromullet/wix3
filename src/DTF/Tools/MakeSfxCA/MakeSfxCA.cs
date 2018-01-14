@@ -671,10 +671,33 @@ namespace Microsoft.Deployment.Tools.MakeSfxCA
                 }
                 else
                 {
-                    string fileName = Path.GetFileName(inputFile);
-                    if (!fileMap.ContainsKey(fileName))
+                    List<string> inputFileNames = null;
+                    if (File.Exists(inputFile) && Path.GetExtension(inputFile) == ".tmp")
                     {
-                        fileMap.Add(fileName, inputFile);
+                        var lines = File.ReadAllLines(inputFile);
+                        if (lines != null && lines.Length > 0)
+                        {
+                            var firstLine = lines[0];
+                            Uri fileUri;
+                            if (System.Uri.TryCreate(firstLine, UriKind.Absolute, out fileUri))
+                            {
+                                // First line is an actual file. Expand using files
+                                inputFileNames = new List<string>(lines);
+                            }
+                        }
+                    }
+                    if (inputFileNames == null)
+                    {
+                        inputFileNames = new List<string> { inputFile };
+                    }
+
+                    foreach (var inputFileName in inputFileNames)
+                    {
+                        string fileName = Path.GetFileName(inputFileName);
+                        if (!fileMap.ContainsKey(fileName))
+                        {
+                            fileMap.Add(fileName, inputFileName);
+                        }
                     }
                 }
             }
